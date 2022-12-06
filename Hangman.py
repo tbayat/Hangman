@@ -1,4 +1,5 @@
 import random
+import pyautogui
 
 HANGSMAN_PICS = ['''
    +---+
@@ -67,7 +68,7 @@ def getguess(alreadyguessed):
     while True:
         guess = input('\nplease guess a letter:').lower()
         if len(guess) != 1:
-              print('\nPlease enter a single letter.')
+              pyautogui.alert('Please enter a single letter.')
         elif guess in alreadyguessed:
               print('\nYou have already guessed that letter. Choose again.')
         elif guess not in 'abcdefghijklmnopqrstuvwxyz':
@@ -80,7 +81,6 @@ def playagain():
     return answer
 
 def win(correctletter):
-    global gameisdone
     foundall_letter = True
     for i in range(len(secretword)):
         if secretword[i] not in correctletter:
@@ -88,16 +88,15 @@ def win(correctletter):
             break
     if foundall_letter:
         print("yes the secret word is " +secretword + " !you won!")
-        gameisdone = True
-    return gameisdone
+        return True
+    return False
 
 def loose(missedletter):
-    global gameisdone
     if len(missedletter) == len(HANGSMAN_PICS) -1 :
-            display_board(missedletter,correctletter,secretword)
-            print('You have run out of guesses!\nAfter ' + str(len(missedletter)) + ' missed guesses and ' + str(len(correctletter)) + ' correct guesses, the word was "' + secretword + '"')
-            gameisdone = True
-    return gameisdone
+        display_board(missedletter,correctletter,secretword)
+        print('You have run out of guesses!\nAfter ' + str(len(missedletter)) + ' missed guesses and ' + str(len(correctletter)) + ' correct guesses, the word was "' + secretword + '"')
+        return True
+    return False
 
 
 
