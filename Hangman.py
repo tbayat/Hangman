@@ -1,6 +1,6 @@
 import random
-import pyautogui
 
+print('H A N G M A N')
 HANGSMAN_PICS = ['''
    +---+
        |
@@ -40,35 +40,35 @@ HANGSMAN_PICS = ['''
 words = 'ant baboon badger bat bear beaver camel cat clam cobra cougar coyote crow deer dog donkey duck eagle ferret fox frog goat goose hawk lion lizard llama mole monkey moose mouse mule newt otter owl panda parrot pigeon python rabbit ram rat raven rhino salmon seal shark sheep skunk sloth snake spider stork swan tiger toad trout turkey turtle weasel whale wolf wombat zebra'.split()
 
 
-def getrandom_word(wordlist):
-    wordindex = random.randint(0 , len(wordlist) -1)
-    return wordlist[wordindex]
+def get_random_word(word_list):
+    word_index = random.randint(0 , len(word_list) -1)
+    return word_list[word_index]
 
 print('H A N G M A N')
-missedletter = ''
-correctletter = ''
-secretword = getrandom_word(words)
-gameisdone = False
+missed_letter = ''
+correct_letter = ''
+secret_word = get_random_word(words)
+game_is_done = False
 
-def display_board(missedletter , correctletter, secretword):
-    print(f'{HANGSMAN_PICS[len(missedletter)]} \n')
+def display_board(missed_letter , correct_letter, secret_word):
+    print(f'{HANGSMAN_PICS[len(missed_letter)]} \n')
     print('missed letter:' , end=' ')
-    for letter in missedletter:
+    for letter in missed_letter:
         print(f'\n{letter}' , end = ' \n' )
         
 
-    blanks= '_' * len(secretword)
-    for i in range(len(secretword)):
-        if secretword[i] in correctletter:
-            blanks = blanks[:i] + secretword[i] + blanks[i+1:]   
+    blanks= '_' * len(secret_word)
+    for i in range(len(secret_word)):
+        if secret_word[i] in correct_letter:
+            blanks = blanks[:i] + secret_word[i] + blanks[i+1:]   
     for letter in blanks:
         print(letter , end = ' ')
 
-def getguess(alreadyguessed):
+def get_guess(alreadyguessed):
     while True:
         guess = input('\nplease guess a letter:').lower()
         if len(guess) != 1:
-              pyautogui.alert('Please enter a single letter.')
+              print('\nPlease enter a single letter.')
         elif guess in alreadyguessed:
               print('\nYou have already guessed that letter. Choose again.')
         elif guess not in 'abcdefghijklmnopqrstuvwxyz':
@@ -76,44 +76,44 @@ def getguess(alreadyguessed):
         else:
              return guess
 
-def playagain():
+def play_again():
     answer = input('Do you want to play again? (yes or no)\n').lower().startswith('y')
     return answer
 
-def win(correctletter):
+def win(correct_letter):
     foundall_letter = True
-    for i in range(len(secretword)):
-        if secretword[i] not in correctletter:
+    for i in range(len(secret_word)):
+        if secret_word[i] not in correct_letter:
             foundall_letter = False
             break
     if foundall_letter:
-        print("yes the secret word is " +secretword + " !you won!")
+        print("yes the secret word is " +secret_word + " !you won!")
         return True
     return False
 
-def loose(missedletter):
-    if len(missedletter) == len(HANGSMAN_PICS) -1 :
-        display_board(missedletter,correctletter,secretword)
-        print('You have run out of guesses!\nAfter ' + str(len(missedletter)) + ' missed guesses and ' + str(len(correctletter)) + ' correct guesses, the word was "' + secretword + '"')
+def loose(missed_letter):
+    if len(missed_letter) == len(HANGSMAN_PICS) -1 :
+        display_board(missed_letter,correct_letter,secret_word)
+        print('You have run out of guesses!\nAfter ' + str(len(missed_letter)) + ' missed guesses and ' + str(len(correct_letter)) + ' correct guesses, the word was "' + secret_word + '"')
         return True
     return False
 
 
 
 while True:
-    display_board(missedletter,correctletter,secretword)
-    guess = getguess(missedletter + correctletter)
-    if guess in secretword:
-        correctletter = correctletter + guess
-        gameisdone = win(correctletter)
+    display_board(missed_letter,correct_letter,secret_word)
+    guess = get_guess(missed_letter + correct_letter)
+    if guess in secret_word:
+        correct_letter = correct_letter + guess
+        game_is_done = win(correct_letter)
     else:
-        missedletter = missedletter + guess
-        gameisdone = loose(missedletter)
-    if gameisdone:
-        if playagain():
-            missedletter = ''
-            correctletter = ''
-            secretword = getrandom_word(words)
-            gameisdone = False
+        missed_letter = missed_letter + guess
+        game_is_done = loose(missed_letter)
+    if game_is_done:
+        if play_again():
+            missed_letter = ''
+            correct_letter = ''
+            secret_word = get_random_word(words)
+            game_is_done = False
         else:
             break
