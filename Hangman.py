@@ -44,7 +44,6 @@ def get_random_word(word_list):
     word_index = random.randint(0 , len(word_list) -1)
     return word_list[word_index]
 
-print('H A N G M A N')
 missed_letter = ''
 correct_letter = ''
 secret_word = get_random_word(words)
