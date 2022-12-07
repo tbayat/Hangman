@@ -1,6 +1,7 @@
 import random
 
 print('H A N G M A N')
+
 HANGSMAN_PICS = ['''
    +---+
        |
@@ -54,8 +55,6 @@ def display_board(missed_letter , correct_letter, secret_word):
     print('missed letter:' , end=' ')
     for letter in missed_letter:
         print(f'\n{letter}' , end = ' \n' )
-        
-
     blanks= '_' * len(secret_word)
     for i in range(len(secret_word)):
         if secret_word[i] in correct_letter:
@@ -86,14 +85,14 @@ def win(correct_letter):
             foundall_letter = False
             break
     if foundall_letter:
-        print("yes the secret word is " +secret_word + " !you won!")
+        print(f'yes the secret word is {secret_word} !you won!')
         return True
     return False
 
 def loose(missed_letter):
     if len(missed_letter) == len(HANGSMAN_PICS) -1 :
         display_board(missed_letter,correct_letter,secret_word)
-        print('You have run out of guesses!\nAfter ' + str(len(missed_letter)) + ' missed guesses and ' + str(len(correct_letter)) + ' correct guesses, the word was "' + secret_word + '"')
+        print(f'You have run out of guesses!\nAfter {len(missed_letter)}  missed guesses and {len(correct_letter)} correct guesses, the word was {secret_word}')
         return True
     return False
 
