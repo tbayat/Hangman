@@ -1,4 +1,5 @@
 import random
+from PIL import Image
 
 print('H A N G M A N')
 HANGSMAN_PICS = ['''
@@ -37,6 +38,17 @@ HANGSMAN_PICS = ['''
     /|\  |
     / \  |
        =====''']
+
+im1=Image.open("/Users/tina/projects/coffee to do/Hangman_game/images/1.png") 
+im2= Image.open("/Users/tina/projects/coffee to do/Hangman_game/images/2.png")
+im3=Image.open("/Users/tina/projects/coffee to do/Hangman_game/images/3.png") 
+im4= Image.open("/Users/tina/projects/coffee to do/Hangman_game/images/4.png")
+im5=Image.open("/Users/tina/projects/coffee to do/Hangman_game/images/5.png") 
+im6= Image.open("/Users/tina/projects/coffee to do/Hangman_game/images/6.png")
+im7= Image.open("/Users/tina/projects/coffee to do/Hangman_game/images/7.png")
+img_list=[im1,im2,im3,im4,im5,im6,im7]
+        
+
 words = 'ant baboon badger bat bear beaver camel cat clam cobra cougar coyote crow deer dog donkey duck eagle ferret fox frog goat goose hawk lion lizard llama mole monkey moose mouse mule newt otter owl panda parrot pigeon python rabbit ram rat raven rhino salmon seal shark sheep skunk sloth snake spider stork swan tiger toad trout turkey turtle weasel whale wolf wombat zebra'.split()
 
 
@@ -44,14 +56,13 @@ def get_random_word(word_list):
     word_index = random.randint(0 , len(word_list) -1)
     return word_list[word_index]
 
-print('H A N G M A N')
 missed_letter = ''
 correct_letter = ''
 secret_word = get_random_word(words)
 game_is_done = False
 
 def display_board(missed_letter , correct_letter, secret_word):
-    print(f'{HANGSMAN_PICS[len(missed_letter)]} \n')
+    img_list[len(missed_letter)].show()
     print('missed letter:' , end=' ')
     for letter in missed_letter:
         print(f'\n{letter}' , end = ' \n' )
@@ -87,7 +98,7 @@ def win(correct_letter):
             foundall_letter = False
             break
     if foundall_letter:
-        print("yes the secret word is " +secret_word + " !you won!")
+        print("yes the secret word is " + secret_word + " !you won!")
         return True
     return False
 
