@@ -1,43 +1,8 @@
 import random
 from PIL import Image
+import pyautogui as pg
 
 print('H A N G M A N')
-HANGSMAN_PICS = ['''
-   +---+
-       |
-       |
-       |
-     =====''' , '''
-    +---+
-    o   |
-        |
-        |
-      =====''', '''
-    +---+
-    o   |
-    |   |
-        |                   
-      =====''' , '''
-    +---+
-    o   |
-    |\  |
-        |
-      =====''' , '''
-    +---+
-    o   |
-   /|\  |
-        |
-      =====''' , '''
-    +---+
-    o   |
-   /|\  |
-     \  |
-      =====''' , '''
-     +---+
-     o   |
-    /|\  |
-    / \  |
-       =====''']
 
 im1=Image.open("/Users/tina/projects/coffee to do/Hangman_game/images/1.png") 
 im2= Image.open("/Users/tina/projects/coffee to do/Hangman_game/images/2.png")
@@ -63,11 +28,9 @@ game_is_done = False
 
 def display_board(missed_letter , correct_letter, secret_word):
     img_list[len(missed_letter)].show()
-    print('missed letter:' , end=' ')
+    print('\nmissed letter:' , end=' ')
     for letter in missed_letter:
         print(f'\n{letter}' , end = ' \n' )
-        
-
     blanks= '_' * len(secret_word)
     for i in range(len(secret_word)):
         if secret_word[i] in correct_letter:
@@ -77,13 +40,14 @@ def display_board(missed_letter , correct_letter, secret_word):
 
 def get_guess(alreadyguessed):
     while True:
-        guess = input('\nplease guess a letter:').lower()
+        guess = pg.prompt( 'please enter your guess' )
+        guess = guess.lower()
         if len(guess) != 1:
-              print('\nPlease enter a single letter.')
+              pg.alert('Please enter a single letter.')
         elif guess in alreadyguessed:
-              print('\nYou have already guessed that letter. Choose again.')
+              pg.alert('You have already guessed that letter. Choose again.')
         elif guess not in 'abcdefghijklmnopqrstuvwxyz':
-              print('\nPlease enter a LETTER.')
+              pg.alert('Please enter a LETTER.')
         else:
              return guess
 
@@ -103,7 +67,7 @@ def win(correct_letter):
     return False
 
 def loose(missed_letter):
-    if len(missed_letter) == len(HANGSMAN_PICS) -1 :
+    if len(missed_letter) == len(img_list) -1 :
         display_board(missed_letter,correct_letter,secret_word)
         print('You have run out of guesses!\nAfter ' + str(len(missed_letter)) + ' missed guesses and ' + str(len(correct_letter)) + ' correct guesses, the word was "' + secret_word + '"')
         return True
@@ -114,6 +78,7 @@ def loose(missed_letter):
 while True:
     display_board(missed_letter,correct_letter,secret_word)
     guess = get_guess(missed_letter + correct_letter)
+    img_list.close()
     if guess in secret_word:
         correct_letter = correct_letter + guess
         game_is_done = win(correct_letter)
