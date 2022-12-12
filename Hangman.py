@@ -1,16 +1,17 @@
 import random
 from PIL import Image
 import pyautogui as pg
+import os
 
 pg.alert('you start a dangrous game --> H A N G M A N ')
 
-im1=Image.open("/Users/tina/projects/coffee to do/Hangman_game/images/1.png") 
-im2= Image.open("/Users/tina/projects/coffee to do/Hangman_game/images/2.png")
-im3=Image.open("/Users/tina/projects/coffee to do/Hangman_game/images/3.png") 
-im4= Image.open("/Users/tina/projects/coffee to do/Hangman_game/images/4.png")
-im5=Image.open("/Users/tina/projects/coffee to do/Hangman_game/images/5.png") 
-im6= Image.open("/Users/tina/projects/coffee to do/Hangman_game/images/6.png")
-im7= Image.open("/Users/tina/projects/coffee to do/Hangman_game/images/7.png")
+im1=Image.open(os.path.join(os.getcwd(),'images/1.png')) 
+im2= Image.open(os.path.join(os.getcwd(),'images/2.png'))
+im3=Image.open(os.path.join(os.getcwd(),'images/3.png')) 
+im4= Image.open(os.path.join(os.getcwd(),'images/4.png'))
+im5=Image.open(os.path.join(os.getcwd(),'images/5.png')) 
+im6= Image.open(os.path.join(os.getcwd(),'images/6.png'))
+im7= Image.open(os.path.join(os.getcwd(),'images/7.png'))
 img_list=[im1,im2,im3,im4,im5,im6,im7]
         
 
@@ -39,17 +40,19 @@ def display_board(missed_letter , correct_letter, secret_word):
     pg.alert(f'secret word : {result}')
     
 def get_guess(alreadyguessed):
-    while True:
-        guess = pg.prompt( 'please enter your guess' )
-        guess = guess.lower()
-        if len(guess) != 1:
-              pg.alert('Please enter a single letter.')
-        elif guess in alreadyguessed:
-              pg.alert('You have already guessed that letter. Choose again.')
-        elif guess not in 'abcdefghijklmnopqrstuvwxyz':
-              pg.alert('Please enter a LETTER.')
-        else:
-             return guess
+    guess = pg.prompt( 'please enter your guess' )
+    guess = guess.lower()
+    if len(guess) != 1:
+            pg.alert('Please enter a single letter.')
+            return get_guess(alreadyguessed)
+    elif guess in alreadyguessed:
+            pg.alert('You have already guessed that letter. Choose again.')
+            return get_guess(alreadyguessed)
+    elif guess not in 'abcdefghijklmnopqrstuvwxyz':
+            pg.alert('Please enter a LETTER.')
+            return get_guess(alreadyguessed)
+    else:
+            return guess
 
 def play_again():
     answer = pg.prompt('Do you want to play again? (yes or no)\n')
