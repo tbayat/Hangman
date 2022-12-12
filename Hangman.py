@@ -63,16 +63,18 @@ def display_board(missed_letter , correct_letter, secret_word):
         print(letter , end = ' ')
 
 def get_guess(alreadyguessed):
-    while True:
-        guess = input('\nplease guess a letter:').lower()
-        if len(guess) != 1:
-              print('\nPlease enter a single letter.')
-        elif guess in alreadyguessed:
-              print('\nYou have already guessed that letter. Choose again.')
-        elif guess not in 'abcdefghijklmnopqrstuvwxyz':
-              print('\nPlease enter a LETTER.')
-        else:
-             return guess
+    guess = input('\nplease guess a letter:').lower()
+    if len(guess) != 1:
+            print('\nPlease enter a single letter.')
+            return get_guess(alreadyguessed)
+    elif guess in alreadyguessed:
+            print('\nYou have already guessed that letter. Choose again.')
+            return get_guess(alreadyguessed)
+    elif guess not in 'abcdefghijklmnopqrstuvwxyz':
+            print('\nPlease enter a LETTER.')
+            return get_guess(alreadyguessed)
+    else:
+            return guess
 
 def play_again():
     answer = input('Do you want to play again? (yes or no)\n').lower().startswith('y')
